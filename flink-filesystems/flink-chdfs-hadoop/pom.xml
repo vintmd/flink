@@ -33,7 +33,8 @@ under the License.
 	<properties>
 		<chdfs.sdk.version>2.0</chdfs.sdk.version>
 		<gson.version>2.8.5</gson.version>
-		<chdfs.static.sdk.version>0.6.3</chdfs.static.sdk.version>
+		<chdfs.static.sdk.version>0.6.6</chdfs.static.sdk.version>
+		<chdfs.static.test.sdk.version>0.6.6</chdfs.static.test.sdk.version>
 	</properties>
 
 	<dependencies>

@@ -20,11 +20,12 @@ package org.apache.flink.runtime.chdfs;
 
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.core.fs.FileSystemFactory;
-import org.apache.flink.runtime.fs.hdfs.HadoopFileSystem;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.util.HadoopConfigLoader;
 
 import com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
+// import chdfs.0.6.6.com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,7 @@ public class ChdfsFactory implements FileSystemFactory {
 	public FileSystem create(URI fsUri) throws IOException {
 		checkNotNull(fsUri, "passed file system URI object should not be null");
 		LOG.info("Creating the Chdfs FileSystem.");
-		return new HadoopFileSystem(createInitializedChdfs(fsUri, flinkConfig));
+		return new ChdfsFileSystem(createInitializedChdfs(fsUri, flinkConfig));
 	}
 
 	// uri is of the form: ofs://f4mmzj1iiio-ABCD.chdfs.ap-beijing.myqcloud.com/
