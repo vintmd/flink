@@ -84,6 +84,7 @@ class ChdfsRecoverableFsDataOutputStream extends RecoverableFsDataOutputStream {
 		this.tempFile = checkNotNull(recoverable.tempFile());
 
 		LOG.info("chdfs recover process, temp:{}, recover:{}", tempFile.toString(), recoverable.toString());
+
 		safelyTruncateFile(fs, tempFile, recoverable);
 
 		out = fs.append(tempFile);
@@ -110,12 +111,13 @@ class ChdfsRecoverableFsDataOutputStream extends RecoverableFsDataOutputStream {
 
 	@Override
 	public void flush() throws IOException {
-		out.hflush();
+		// whether real call the flush.
+		out.flush();
 	}
 
 	@Override
 	public void sync() throws IOException {
-		out.hflush();
+		out.flush();
 		out.hsync();
 	}
 

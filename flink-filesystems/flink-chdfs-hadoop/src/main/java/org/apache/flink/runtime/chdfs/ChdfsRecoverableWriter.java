@@ -92,23 +92,23 @@ public class ChdfsRecoverableWriter implements RecoverableWriter {
 
 	@Override
 	public RecoverableFsDataOutputStream.Committer recoverForCommit(CommitRecoverable recoverable) throws IOException {
-		if (recoverable instanceof ChdfsRecoverable) {
-			// final ChdfsRecoverable chdfsRecoverable = cas
-			final ChdfsRecoverableFsDataOutputStream recovered = (ChdfsRecoverableFsDataOutputStream) recover((ChdfsRecoverable)recoverable);
-			return recovered.closeForCommit();
-		} else {
-			throw new IllegalArgumentException(
-				"Chdfs File System  cannot recover a recoverable for another file system: " + recoverable);
-
-		}
 		//if (recoverable instanceof ChdfsRecoverable) {
-		//	LOG.info("Chdfs recover for commit");
-		//	return new ChdfsRecoverableFsDataOutputStream.ChdfsCommitter(fs, (ChdfsRecoverable) recoverable);
-		//}
-		//else {
+		//	// final ChdfsRecoverable chdfsRecoverable = cas
+		//	final ChdfsRecoverableFsDataOutputStream recovered = (ChdfsRecoverableFsDataOutputStream) recover((ChdfsRecoverable)recoverable);
+		//	return recovered.closeForCommit();
+		//} else {
 		//	throw new IllegalArgumentException(
 		//		"Chdfs File System  cannot recover a recoverable for another file system: " + recoverable);
+
 		//}
+		if (recoverable instanceof ChdfsRecoverable) {
+			LOG.info("Chdfs recover for commit");
+			return new ChdfsRecoverableFsDataOutputStream.ChdfsCommitter(fs, (ChdfsRecoverable) recoverable);
+		}
+		else {
+			throw new IllegalArgumentException(
+				"Chdfs File System  cannot recover a recoverable for another file system: " + recoverable);
+		}
 	}
 
 	@Override
