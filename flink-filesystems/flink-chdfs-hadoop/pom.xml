@@ -35,8 +35,10 @@ under the License.
 	<properties>
 		<chdfs.sdk.version>2.0</chdfs.sdk.version>
 		<gson.version>2.8.5</gson.version>
-		<chdfs.static.sdk.version>0.6.6</chdfs.static.sdk.version>
-		<chdfs.static.test.sdk.version>0.6.6</chdfs.static.test.sdk.version>
+		<!--chdfs.static.sdk.version 0.6.6 support the base support of the streaming file sink with chdfs  -->
+		<!--chdfs.static.sdk.version 0.7.0 support the manual unlock the unclose fd which used before truncate when recover-->
+		<chdfs.static.sdk.version>0.7.0</chdfs.static.sdk.version>
+		<chdfs.static.test.sdk.version>0.7.0</chdfs.static.test.sdk.version>
 	</properties>
 
 	<dependencies>

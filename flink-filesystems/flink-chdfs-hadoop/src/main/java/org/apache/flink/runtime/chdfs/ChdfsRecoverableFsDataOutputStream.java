@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
@@ -161,6 +162,11 @@ class ChdfsRecoverableFsDataOutputStream extends RecoverableFsDataOutputStream {
 		final ChdfsRecoverable recoverable) throws IOException {
 
 		ensureTruncateInitialized();
+
+		// if fd or session not close when occur something interrupt,
+		// the truncate will try to open fd again which may occur the 'can not open fd again'
+		// so every time begin call the truncate, manual to unlock the fd.
+		((CHDFSHadoopFileSystem)fileSystem).releaseFileLock(path);
 
 		// truncate back and append
 		boolean truncated;
