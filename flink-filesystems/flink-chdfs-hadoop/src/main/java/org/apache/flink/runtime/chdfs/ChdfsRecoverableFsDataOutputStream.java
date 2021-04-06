@@ -17,7 +17,6 @@
  */
 package org.apache.flink.runtime.chdfs;
 
-import com.qcloud.cos.internal.crypto.StaticEncryptionMaterialsProvider;
 import org.apache.flink.annotation.Internal;
 import org.apache.flink.core.fs.RecoverableFsDataOutputStream;
 import org.apache.flink.core.fs.RecoverableWriter.CommitRecoverable;
@@ -38,7 +37,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
+import com.qcloud.chdfs.fs.FileSystemWithLockCleaner;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
@@ -166,7 +165,7 @@ class ChdfsRecoverableFsDataOutputStream extends RecoverableFsDataOutputStream {
 		// if fd or session not close when occur something interrupt,
 		// the truncate will try to open fd again which may occur the 'can not open fd again'
 		// so every time begin call the truncate, manual to unlock the fd.
-		((CHDFSHadoopFileSystem)fileSystem).releaseFileLock(path);
+		((FileSystemWithLockCleaner)fileSystem).releaseFileLock(path);
 
 		// truncate back and append
 		boolean truncated;

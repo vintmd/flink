@@ -23,9 +23,7 @@ import org.apache.flink.core.fs.FileSystemFactory;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.runtime.util.HadoopConfigLoader;
 
-import com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
-// import chdfs.0.6.6.com.qcloud.chdfs.fs.CHDFSHadoopFileSystem;
-
+import com.qcloud.chdfs.fs.CHDFSHadoopFileSystemAdapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +86,7 @@ public class ChdfsFactory implements FileSystemFactory {
 	private org.apache.hadoop.fs.FileSystem createInitializedChdfs(URI fsUri, Configuration flinkConfig) throws IOException {
 		org.apache.hadoop.conf.Configuration hadoopConfig = configLoader.getOrLoadHadoopConfig();
 
-		org.apache.hadoop.fs.FileSystem chdfsFileSystem = new CHDFSHadoopFileSystem();
+		org.apache.hadoop.fs.FileSystem chdfsFileSystem = new CHDFSHadoopFileSystemAdapter();
 		chdfsFileSystem.initialize(fsUri, hadoopConfig);
 		return chdfsFileSystem;
 	}
