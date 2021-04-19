@@ -39,7 +39,7 @@ under the License.
 		<!--chdfs.static.sdk.version 0.7.0 support the manual unlock the unclose fd which used before truncate when recover-->
 		<!--chdfs.shell.sdk.version 2.2 support the shell sdk way-->
 		<chdfs.static.sdk.version>0.8.5</chdfs.static.sdk.version>
-		<chdfs.shell.sdk.version>2.2</chdfs.shell.sdk.version>
+		<chdfs.shell.sdk.version>2.3</chdfs.shell.sdk.version>
 		<chdfs.static.test.sdk.version>0.8.5</chdfs.static.test.sdk.version>
 	</properties>
 
