@@ -66,6 +66,7 @@ public class ChdfsFactory implements FileSystemFactory {
 
 	@Override
 	public void configure(Configuration config) {
+		LOG.info("begin the assign of chdfs configure");
 		this.flinkConfig = config;
 		configLoader.setFlinkConfig(config);
 	}
@@ -85,6 +86,9 @@ public class ChdfsFactory implements FileSystemFactory {
 	// uri is of the form: ofs://f4mmzj1iiio-ABCD.chdfs.ap-beijing.myqcloud.com/
 	private org.apache.hadoop.fs.FileSystem createInitializedChdfs(URI fsUri, Configuration flinkConfig) throws IOException {
 		org.apache.hadoop.conf.Configuration hadoopConfig = configLoader.getOrLoadHadoopConfig();
+		for(java.util.Map.Entry<String, String> entry : hadoopConfig){
+			LOG.info("Chdfs file system config detail key: {} value: {}", entry.getKey(), entry.getValue());
+		}
 
 		org.apache.hadoop.fs.FileSystem chdfsFileSystem = new CHDFSHadoopFileSystemAdapter();
 		chdfsFileSystem.initialize(fsUri, hadoopConfig);
