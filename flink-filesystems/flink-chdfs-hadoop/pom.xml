@@ -57,6 +57,7 @@ under the License.
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
 			<version>${fs.hadoopshaded.version}</version>
+			<scope>provided</scope>
 
 			<exclusions>
 				<exclusion>
@@ -66,6 +67,10 @@ under the License.
 				<exclusion>
 					<groupId>com.jcraft</groupId>
 					<artifactId>jsch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
