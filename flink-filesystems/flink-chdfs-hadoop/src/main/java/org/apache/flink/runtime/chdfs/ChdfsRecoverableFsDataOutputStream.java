@@ -246,6 +246,7 @@ class ChdfsRecoverableFsDataOutputStream extends RecoverableFsDataOutputStream {
 				srcStatus = fs.getFileStatus(src);
 			}
 			catch (IOException e) {
+				LOG.info("Chdfs output stream commit failed, src not exist {}, {}", src.toString(), dest.toString());
 				throw new IOException("Cannot clean commit: Staging file does not exist.");
 			}
 
