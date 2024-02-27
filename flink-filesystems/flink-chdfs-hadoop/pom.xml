@@ -39,7 +39,7 @@ under the License.
 		<!--chdfs.static.sdk.version 0.7.0 support the manual unlock the unclose fd which used before truncate when recover-->
 		<!--chdfs.shell.sdk.version 2.2 support the shell sdk way-->
 		<chdfs.static.sdk.version>0.8.5</chdfs.static.sdk.version>
-		<chdfs.shell.sdk.version>2.6</chdfs.shell.sdk.version>
+		<chdfs.shell.sdk.version>2.7</chdfs.shell.sdk.version>
 		<chdfs.static.test.sdk.version>0.8.5</chdfs.static.test.sdk.version>
 	</properties>
 
@@ -57,7 +57,6 @@ under the License.
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
 			<version>${fs.hadoopshaded.version}</version>
-			<scope>provided</scope>
 
 			<exclusions>
 				<exclusion>
@@ -68,10 +67,12 @@ under the License.
 					<groupId>com.jcraft</groupId>
 					<artifactId>jsch</artifactId>
 				</exclusion>
+<!--
 				<exclusion>
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
 				</exclusion>
+-->
 				<exclusion>
 					<groupId>com.sun.jersey</groupId>
 					<artifactId>jersey-core</artifactId>
@@ -156,14 +157,18 @@ under the License.
 					<groupId>commons-codec</groupId>
 					<artifactId>commons-codec</artifactId>
 				</exclusion>
+<!--
 				<exclusion>
 					<groupId>com.google.protobuf</groupId>
 					<artifactId>protobuf-java</artifactId>
 				</exclusion>
+-->
+<!--
 				<exclusion>
 					<groupId>com.google.code.gson</groupId>
 					<artifactId>gson</artifactId>
 				</exclusion>
+-->
 				<exclusion>
 					<groupId>org.apache.httpcomponents</groupId>
 					<artifactId>httpclient</artifactId>

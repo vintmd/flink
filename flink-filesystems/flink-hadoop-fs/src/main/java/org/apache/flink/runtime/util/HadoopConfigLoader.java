@@ -20,6 +20,7 @@ package org.apache.flink.runtime.util;
 
 import org.apache.flink.configuration.Configuration;
 
+import org.apache.hadoop.yarn.ipc.HadoopYarnProtoRPC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,9 @@ public class HadoopConfigLoader {
 	/** Flink's configuration object. */
 	private Configuration flinkConfig;
 
+	// here we change it so not useful for all storage.
+	private static final String HADOOP_QCLOUD_CONFIG = "qcloud.";
+
 	/** Hadoop's configuration for the file systems, lazily initialized. */
 	private org.apache.hadoop.conf.Configuration hadoopConfig;
 
@@ -61,12 +65,12 @@ public class HadoopConfigLoader {
 		Set<String> packagePrefixesToShade,
 		@Nonnull Set<String> configKeysToShade,
 		@Nonnull String flinkShadingPrefix) {
-		this.flinkConfigPrefixes = flinkConfigPrefixes;
-		this.mirroredConfigKeys = mirroredConfigKeys;
-		this.hadoopConfigPrefix = hadoopConfigPrefix;
-		this.packagePrefixesToShade = packagePrefixesToShade;
-		this.configKeysToShade = configKeysToShade;
-		this.flinkShadingPrefix = flinkShadingPrefix;
+		this.flinkConfigPrefixes = flinkConfigPrefixes; // fs.ofs, ofs.
+		this.mirroredConfigKeys = mirroredConfigKeys; //
+		this.hadoopConfigPrefix = hadoopConfigPrefix; // fs.ofs.
+		this.packagePrefixesToShade = packagePrefixesToShade; //
+		this.configKeysToShade = configKeysToShade; //
+		this.flinkShadingPrefix = flinkShadingPrefix; //
 	}
 
 	public void setFlinkConfig(Configuration config) {
@@ -95,13 +99,16 @@ public class HadoopConfigLoader {
 	private org.apache.hadoop.conf.Configuration loadHadoopConfigFromFlink() {
 		org.apache.hadoop.conf.Configuration hadoopConfig = new org.apache.hadoop.conf.Configuration();
 		for (String key : flinkConfig.keySet()) {
+			if (key.startsWith(HADOOP_QCLOUD_CONFIG)) {
+				hadoopConfig.set(key, flinkConfig.getString(key, ""));
+				LOG.info("Adding Flink config entry for {} as {} to Hadoop config", key, flinkConfig.getString(key, ""));
+			}
 			for (String prefix : flinkConfigPrefixes) {
 				if (key.startsWith(prefix)) {
 					String newKey = hadoopConfigPrefix + key.substring(prefix.length());
 					String newValue = fixHadoopConfig(key, flinkConfig.getString(key, null));
 					hadoopConfig.set(newKey, newValue);
-
-					LOG.debug("Adding Flink config entry for {} as {} to Hadoop config", key, newKey);
+					LOG.info("Adding Flink config entry for {} as {} to Hadoop config", key, newKey);
 				}
 			}
 		}
