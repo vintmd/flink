@@ -46,6 +46,8 @@ public class ChdfsFactory implements FileSystemFactory {
 
 	private static final String HADOOP_CONFIG_PREFIX = "fs.ofs.";
 
+	private static final String[] FLINK_CONFIG_PREFIXES_RANGER = {"qcloud.object."};
+
 	private static final String[][] MIRRORED_CONFIG_KEYS = {};
 
 	private static final Set<String> PACKAGE_PREFIXES_TO_SHADE = Collections.emptySet();
@@ -88,6 +90,16 @@ public class ChdfsFactory implements FileSystemFactory {
 		org.apache.hadoop.conf.Configuration hadoopConfig = configLoader.getOrLoadHadoopConfig();
 		for(java.util.Map.Entry<String, String> entry : hadoopConfig){
 			LOG.info("Chdfs file system config detail key: {} value: {}", entry.getKey(), entry.getValue());
+		}
+		for (String key : flinkConfig.keySet()) {
+			for (String prefix : FLINK_CONFIG_PREFIXES_RANGER) {
+				if (key.startsWith(prefix)) {
+					String value = flinkConfig.getString(key, null);
+					hadoopConfig.set(key, value);
+					// other shade key conf here
+					LOG.debug("Adding Flink config entry for {} as {} to Hadoop config", key, hadoopConfig.get(key));
+				}
+			}
 		}
 
 		org.apache.hadoop.fs.FileSystem chdfsFileSystem = new CHDFSHadoopFileSystemAdapter();
